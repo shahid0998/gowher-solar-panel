@@ -1,0 +1,123 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sun: var(--sun);
+  --color-ink: var(--ink);
+  --font-display: "Sora", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Brand palette — pulled from the Kashmir Solar Power logo */
+  --brand-blue: oklch(0.38 0.07 230);        /* deep teal-blue from logo */
+  --brand-blue-deep: oklch(0.26 0.06 235);
+  --brand-green: oklch(0.66 0.17 140);       /* leaf green from logo */
+  --brand-green-deep: oklch(0.52 0.16 140);
+  --sun: oklch(0.82 0.17 75);                /* warm sunrise accent */
+  --ink: oklch(0.18 0.02 240);
+
+  --background: oklch(0.985 0.005 90);       /* warm off-white */
+  --foreground: oklch(0.18 0.02 240);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 240);
+  --primary: var(--brand-blue);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: var(--brand-green);
+  --secondary-foreground: oklch(0.99 0 0);
+  --muted: oklch(0.95 0.01 90);
+  --muted-foreground: oklch(0.45 0.02 240);
+  --accent: oklch(0.94 0.04 145);
+  --accent-foreground: var(--brand-blue-deep);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.01 240);
+  --input: oklch(0.92 0.01 240);
+  --ring: var(--brand-green);
+}
+
+.dark {
+  --background: oklch(0.16 0.02 240);
+  --foreground: oklch(0.97 0.005 90);
+  --card: oklch(0.22 0.03 240);
+  --card-foreground: oklch(0.97 0 0);
+  --popover: oklch(0.22 0.03 240);
+  --popover-foreground: oklch(0.97 0 0);
+  --primary: var(--brand-green);
+  --primary-foreground: oklch(0.15 0.02 240);
+  --secondary: var(--brand-blue);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.26 0.02 240);
+  --muted-foreground: oklch(0.72 0.02 240);
+  --accent: oklch(0.3 0.05 145);
+  --accent-foreground: oklch(0.97 0 0);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--brand-green);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(135deg, var(--brand-green) 0%, var(--brand-blue) 60%, var(--sun) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-hero-radial {
+  background-image:
+    radial-gradient(circle at 20% 30%, color-mix(in oklab, var(--brand-green) 25%, transparent), transparent 50%),
+    radial-gradient(circle at 80% 70%, color-mix(in oklab, var(--sun) 30%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--brand-blue-deep), var(--ink));
+}
+
+@utility glass-card {
+  background-color: color-mix(in oklab, white 8%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid color-mix(in oklab, white 15%, transparent);
+}
