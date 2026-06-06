@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 // Showcase video from public directory, serving as hero and showcase reel
-const HERO_VIDEO = "/showcase-reel.mp4";
+const HERO_VIDEO = "/lv_0_20260605180225.mp4";
 
 function HomePage() {
   return (
@@ -189,7 +189,7 @@ function HomePage() {
                 poster={commercialImg}
                 className="w-full h-full object-cover"
               >
-                <source src="/showcase-reel.mp4" type="video/mp4" />
+                <source src="/lv_0_20260605180225.mp4" type="video/mp4" />
               </video>
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/70 via-transparent to-transparent pointer-events-none" />
               <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
