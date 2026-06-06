@@ -38,4 +38,5 @@ dist-ssr
 
 # Large assets (GitHub limit is 100MB)
 public/showcase-reel.mp4
+*.mp4
 
