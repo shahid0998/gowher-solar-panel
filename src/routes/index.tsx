@@ -20,6 +20,9 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Kashmir Solar Power — Clean Energy for J&K" },
       { property: "og:description", content: "Cinematic solar systems engineered for the Kashmir valley." },
     ],
+    links: [
+      { rel: "preload", href: "/lv_0_20260605180225.mp4", as: "video", type: "video/mp4" },
+    ],
   }),
   component: HomePage,
 });
@@ -38,7 +41,7 @@ function HomePage() {
             loop
             muted
             playsInline
-            poster={heroImg}
+            preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
           >
             <source src={HERO_VIDEO} type="video/mp4" />
@@ -260,7 +263,7 @@ function ZeroBillsSection() {
             </span>
             <br />
             <span className={isNight ? "text-white" : "text-[var(--ink)]"}>
-              for the next <span className="text-[var(--brand-green)]">7 years</span>
+              for the next <span className="text-[var(--brand-green)]">30 years</span>
             </span>
           </h2>
         </div>
@@ -295,7 +298,7 @@ function ZeroBillsSection() {
           }`}
         >
           Forget the energy market, weather conditions and seasons — our Smart Controller
-          guarantees you get no electricity bill for seven years.
+          guarantees you get no electricity bill for thirty years.
         </p>
       </div>
     </section>
