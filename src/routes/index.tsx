@@ -21,14 +21,14 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Cinematic solar systems engineered for the Kashmir valley." },
     ],
     links: [
-      { rel: "preload", href: "/lv_0_20260605180225.mp4", as: "video", type: "video/mp4" },
+      { rel: "preload", href: "https://xqkaivdsuuzznwbleshc.supabase.co/storage/v1/object/public/videos/lv_0_20260605180225.mp4", as: "video", type: "video/mp4" },
     ],
   }),
   component: HomePage,
 });
 
 // Showcase video from public directory, serving as hero and showcase reel
-const HERO_VIDEO = "/lv_0_20260605180225.mp4";
+const HERO_VIDEO = "https://xqkaivdsuuzznwbleshc.supabase.co/storage/v1/object/public/videos/lv_0_20260605180225.mp4";
 
 function HomePage() {
   return (
