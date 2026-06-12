@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MapPin, Sun } from "lucide-react";
-import logo from "@/assets/kashmir-solar-logo.png.asset.json";
+import logo from "@/assets/kashmir-solar-logo.png";
 
 export function Footer() {
   return (
@@ -9,7 +9,7 @@ export function Footer() {
         <div className="md:col-span-2 space-y-5">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 bg-white rounded-xl p-1.5">
-              <img src={logo.url} alt="Kashmir Solar Power" className="h-full w-full object-contain" />
+              <img src={logo} alt="Kashmir Solar Power" className="h-full w-full object-contain" />
             </div>
             <div>
               <div className="font-display font-bold text-white text-lg">Kashmir Solar Power</div>

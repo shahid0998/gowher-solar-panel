@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ArrowRight, Sun, Zap, Shield, Sparkles, Phone, PlayCircle } from "lucide-react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal } from "@/components/Reveal";
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 // Showcase video from public directory, serving as hero and showcase reel
-const HERO_VIDEO = "https://media.githubusercontent.com/media/shahid0998/gowher-solar-panel/main/public/lv_0_20260605180225.mp4";
+const HERO_VIDEO = "/lv_0_20260605180225.mp4";
 
 function HomePage() {
   return (
@@ -180,26 +180,7 @@ function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.1}>
-            <div className="relative rounded-3xl overflow-hidden aspect-video shadow-2xl group">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                poster={commercialImg}
-                className="w-full h-full object-cover"
-              >
-                <source src="https://media.githubusercontent.com/media/shahid0998/gowher-solar-panel/main/public/lv_0_20260605180225.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/70 via-transparent to-transparent pointer-events-none" />
-              <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white">
-                <PlayCircle size={28} className="text-[var(--brand-green)]" />
-                <div>
-                  <div className="font-semibold">Kashmir Solar — Showcase Reel</div>
-                  <div className="text-xs text-white/70">A walkthrough of our solar installations in Kashmir</div>
-                </div>
-              </div>
-            </div>
+            <ShowcaseVideo />
           </Reveal>
         </div>
       </section>
@@ -318,6 +299,48 @@ function ZeroBillsSection() {
         </p>
       </div>
     </section>
+  );
+}
+
+function ShowcaseVideo() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handlePlay = () => {
+    setIsPlaying(true);
+    videoRef.current?.play();
+  };
+
+  return (
+    <div 
+      className="relative rounded-3xl overflow-hidden aspect-video shadow-2xl group cursor-pointer" 
+      onClick={handlePlay}
+    >
+      <video
+        ref={videoRef}
+        controls={isPlaying}
+        preload="none"
+        playsInline
+        poster={commercialImg}
+        className="w-full h-full object-cover"
+      >
+        <source src={HERO_VIDEO} type="video/mp4" />
+      </video>
+      {!isPlaying && (
+        <>
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--ink)]/70 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/35 transition-colors duration-300">
+            <PlayCircle size={64} className="text-[var(--brand-green)] scale-100 group-hover:scale-110 transition-transform duration-300 drop-shadow-lg" />
+          </div>
+          <div className="absolute bottom-6 left-6 flex items-center gap-3 text-white pointer-events-none">
+            <div>
+              <div className="font-semibold text-lg">Kashmir Solar — Showcase Reel</div>
+              <div className="text-xs text-white/70">Click to play with sound · A walkthrough of our solar installations</div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
 

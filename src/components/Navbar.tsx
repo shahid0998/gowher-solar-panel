@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/kashmir-solar-logo.png.asset.json";
+import logo from "@/assets/kashmir-solar-logo.png";
 
 const links = [
   { to: "/" as const, label: "Home" },
@@ -35,7 +35,7 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-5 md:px-8 h-18 md:h-20 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
           <img
-            src={logo.url}
+            src={logo}
             alt="Kashmir Solar Power"
             width={44}
             height={44}
