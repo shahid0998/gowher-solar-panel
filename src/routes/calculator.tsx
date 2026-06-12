@@ -124,7 +124,12 @@ function CalculatorPage() {
                 <button
                   key={t}
                   type="button"
-                  onClick={() => setPropertyType(t)}
+                  onClick={() => {
+                    setPropertyType(t);
+                    if (t === "residential" && bill > 10000) {
+                      setBill(10000);
+                    }
+                  }}
                   className={`py-2 px-4 rounded-full text-sm font-semibold capitalize transition ${
                     propertyType === t
                       ? "bg-[var(--brand-green)] text-white shadow"
@@ -141,8 +146,8 @@ function CalculatorPage() {
             label="Your monthly electricity bill"
             value={bill}
             min={500}
-            max={50000}
-            step={100}
+            max={propertyType === "residential" ? 10000 : 200000}
+            step={propertyType === "residential" ? 100 : 1000}
             unit="₹"
             onChange={setBill}
           />
