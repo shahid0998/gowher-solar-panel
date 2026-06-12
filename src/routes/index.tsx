@@ -322,9 +322,8 @@ function ShowcaseVideo() {
       <video
         ref={videoRef}
         controls={isPlaying}
-        preload="none"
+        preload="metadata"
         playsInline
-        poster={commercialImg}
         className="w-full h-full object-cover"
       >
         <source src={HERO_VIDEO} type="video/mp4" />
