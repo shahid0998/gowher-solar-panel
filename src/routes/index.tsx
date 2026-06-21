@@ -188,6 +188,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* REAL PROJECTS */}
+      <RealProjects />
+
       {/* TESTIMONIAL / CTA */}
       <section className="py-20 md:py-32 bg-hero-radial text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-30 mix-blend-overlay">
@@ -343,6 +346,83 @@ function ShowcaseVideo() {
         </>
       )}
     </div>
+  );
+}
+
+function RealProjects() {
+  const projects = [
+    { id: 1, name: "Srinagar Installation", location: "Peerbagh, Srinagar", capacity: "Rooftop System", img: "/project1.jpg" },
+    { id: 2, name: "Kupwara System", location: "Kupwara", capacity: "Commercial Array", img: "/project2.jpg" },
+    { id: 3, name: "Uwan Setup", location: "Uwan", capacity: "Elevated Solar", img: "/project3.jpg" },
+    { id: 4, name: "Handew Rooftop", location: "Handew", capacity: "Residential Solar", img: "/project4.jpg" },
+    { id: 5, name: "Reshipora Array", location: "Reshipora", capacity: "Tin Roof Mount", img: "/project5.jpg" },
+    { id: 6, name: "Bandah Paho", location: "Bandah Paho", capacity: "Residential Solar", img: "/project6.jpg" },
+    { id: 7, name: "Chadoora System", location: "Chadoora", capacity: "Rooftop Solar", img: "/project7.jpg" },
+    { id: 8, name: "Dharamsala Singhan", location: "Dharamsala Singhan", capacity: "High Yield Array", img: "/project8.jpg" },
+    { id: 9, name: "Kalaroos Off-Grid", location: "Dab Bal, Kalaroos", capacity: "Mountain Solar", img: "/project9.jpg" },
+    { id: 10, name: "Shirmal Rooftop", location: "Shirmal", capacity: "Solar Array", img: "/project10.jpg" },
+    { id: 11, name: "Kuther Gund Array", location: "Kuther Gund", capacity: "Residential Solar", img: "/project11.jpg" },
+  ];
+
+  return (
+    <section className="py-20 md:py-32 bg-[var(--ink)] text-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(120,200,100,0.05),transparent_50%)]" />
+      <div className="relative max-w-7xl mx-auto px-5 md:px-8">
+        <Reveal>
+          <div className="text-center mb-16">
+            <span className="text-[var(--brand-green)] uppercase tracking-[0.2em] text-xs font-semibold">Our Recent Work</span>
+            <h2 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-display font-bold">
+              Real Installations in Kashmir
+            </h2>
+            <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
+              Browse our latest successful solar deployments across the valley.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((p, i) => (
+            <Reveal key={p.id} delay={i * 0.1}>
+              <div className="group relative rounded-3xl overflow-hidden bg-white/5 border border-white/10 p-2 hover:bg-white/10 transition-colors duration-500">
+                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-black/50 flex items-center justify-center">
+                  <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-white/40 group-hover:opacity-0 transition-opacity duration-300 px-4 text-center">
+                     <span className="text-sm font-medium">Please save image as</span>
+                     <span className="text-sm font-bold text-white mt-1">{p.img.replace('/', '')}</span>
+                     <span className="text-xs mt-1">to the public folder</span>
+                  </div>
+                  {/* Privacy Crop: Image is made 120% tall and aligned to the top. 
+                      This pushes the bottom 20% (containing GPS info) outside the hidden overflow. */}
+                  <img
+                    src={p.img}
+                    alt={p.name}
+                    className="absolute left-0 top-0 w-full h-[120%] object-cover object-top transition-transform duration-700 group-hover:scale-105 z-20"
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.opacity = '0';
+                    }}
+                    onLoad={(e) => {
+                      (e.target as HTMLImageElement).style.opacity = '1';
+                    }}
+                  />
+                </div>
+                <div className="absolute top-6 left-6 z-30 flex items-center gap-2">
+                  <span className="px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-white text-xs font-medium border border-white/20">
+                    {p.capacity}
+                  </span>
+                </div>
+                <div className="p-6 relative z-30">
+                  <h3 className="text-2xl font-display font-bold">{p.name}</h3>
+                  <p className="text-white/60 mt-2 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--brand-green)]" />
+                    {p.location}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
