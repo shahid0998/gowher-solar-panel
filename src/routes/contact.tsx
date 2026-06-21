@@ -6,15 +6,44 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Reveal } from "@/components/Reveal";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
-import emailjs from "@emailjs/browser";
+import { createServerFn } from "@tanstack/react-start";
 
-// ── EmailJS config ─────────────────────────────────────────────────────────
-// Sign up free at https://www.emailjs.com, create a Gmail service,
-// create a template, then paste your IDs in .env
-const EMAILJS_SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  ?? "";
-const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID ?? "";
-const EMAILJS_PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY  ?? "";
-// ──────────────────────────────────────────────────────────────────────────
+const sendContactEmailFn = createServerFn({ method: "POST" })
+  .validator((data: { name: string; phone: string; email: string; message: string }) => data)
+  .handler(async ({ data }) => {
+    const nodemailer = await import("nodemailer");
+    
+    // Fallback logic if SMTP credentials are not set
+    if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+      console.warn("SMTP credentials not found. Email not sent.");
+      return { success: false, error: "SMTP credentials not configured" };
+    }
+
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT) || 465,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+
+    try {
+      await transporter.sendMail({
+        from: `"Kashmir Solar Website" <${process.env.SMTP_USER}>`,
+        to: "gowher73@gmail.com",
+        subject: `New Site Visit Request from ${data.name}`,
+        text: `Name: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email || "not provided"}\n\nMessage:\n${data.message}`,
+        html: `<p><strong>Name:</strong> ${data.name}</p><p><strong>Phone:</strong> ${data.phone}</p><p><strong>Email:</strong> ${data.email || "not provided"}</p><p><strong>Message:</strong><br/>${data.message.replace(/\n/g, "<br/>")}</p>`,
+        replyTo: data.email || undefined,
+      });
+      return { success: true };
+    } catch (error: any) {
+      console.error("Nodemailer error:", error);
+      return { success: false, error: error.message };
+    }
+  });
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -56,27 +85,17 @@ function ContactPage() {
       message: parsed.data.message,
     });
 
-    // 2️⃣ Send email to kashmirsolarpower71@gmail.com via EmailJS
+    // 2️⃣ Send email via our native Node.js server function
     let emailSent = false;
-    if (EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY) {
-      try {
-        await emailjs.send(
-          EMAILJS_SERVICE_ID,
-          EMAILJS_TEMPLATE_ID,
-          {
-            from_name:    parsed.data.name,
-            from_phone:   parsed.data.phone,
-            from_email:   parsed.data.email || "not provided",
-            message:      parsed.data.message,
-            to_email:     "kashmirsolarpower71@gmail.com",
-            reply_to:     parsed.data.email || "kashmirsolarpower71@gmail.com",
-          },
-          EMAILJS_PUBLIC_KEY
-        );
+    try {
+      const emailResult = await sendContactEmailFn({ data: parsed.data });
+      if (emailResult.success) {
         emailSent = true;
-      } catch (emailErr) {
-        console.error("EmailJS error:", emailErr);
+      } else {
+        console.error("Email error:", emailResult.error);
       }
+    } catch (emailErr) {
+      console.error("Server function error:", emailErr);
     }
 
     setLoading(false);
@@ -121,8 +140,8 @@ function ContactPage() {
           <ContactCard
             icon={Mail}
             label="Email us"
-            value="kashmirsolarpower71@gmail.com"
-            href="mailto:kashmirsolarpower71@gmail.com"
+            value="gowher73@gmail.com"
+            href="mailto:gowher73@gmail.com"
             sub="Replies within 24 hours"
           />
           <ContactCard
